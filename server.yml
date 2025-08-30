@@ -1,0 +1,16 @@
+- hosts: localhost
+  vars:
+    ssh_folder: "./.ssh"
+    dest_ssh_folder: "{{ lookup('env', 'HOME') }}/.ssh"
+  pre_tasks:
+    - name: Update cache
+      become: true
+      apt:
+        force_apt_get: true
+        update_cache: true
+        state: present
+      tags:
+        - install
+  tasks:
+    - include_tasks: tasks/ssh_server.yml
+    - include_tasks: tasks/ssh_hardening.yml

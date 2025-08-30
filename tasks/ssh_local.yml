@@ -1,0 +1,29 @@
+- name: Ensure .ssh directory exists.
+  file:
+    dest: "{{ dest_ssh_folder }}"
+    mode: 0700
+    state: directory
+  tags:
+    - local
+    - ssh
+# ssh keys for local machine
+- name: Install local ssh key
+  copy:
+    src: "{{ ssh_folder }}/id_rsa_local"
+    dest: "{{ dest_ssh_folder }}/id_rsa_local"
+    mode: 0600
+  tags:
+    - local
+    - ssh
+# ssh config for hertzner server
+- name: Add SSH config entry (so `ssh holy` just works)
+  ansible.builtin.blockinfile:
+    path: "{{ lookup('env','HOME') }}/.ssh/config"
+    create: true
+    mode: "0600"
+    block: |
+      Host holy
+        HostName {{ hertzner_host }}
+        User root
+        IdentityFile {{ dest_ssh_folder }}/id_rsa_local
+        IdentitiesOnly yes
