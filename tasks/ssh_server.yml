@@ -1,12 +1,12 @@
-- name: Ensure .ssh directory exists.
-  file:
-    dest: "{{ dest_ssh_folder }}"
-    mode: 0700
+# Ensure the .ssh directory exists on the server
+- name: Ensure /root/.ssh exists
+  ansible.builtin.file:
+    path: "{{ dest_ssh_folder }}"
     state: directory
-  tags:
-    - local
-    - ssh
-# ssh keys for local machine
+    mode: "0700"
+    owner: root
+    group: root
+# ssh keys for Server
 - name: Install ssh key
   copy:
     src: "{{ ssh_folder }}/id_rsa_local.pub"
@@ -15,3 +15,17 @@
   tags:
     - local
     - ssh
+# ssh config for hertzner server
+- name: Authorize our public key for root
+  ansible.builtin.authorized_key:
+    user: root
+    state: present
+    key: "{{ lookup('file', dest_ssh_folder ~ '/id_rsa_local.pub') }}"
+    manage_dir: false
+# Add the key to the server's authorized_keys
+- name: Ensure authorized_keys perms are strict
+  ansible.builtin.file:
+    path: /root/.ssh/authorized_keys
+    mode: "0600"
+    owner: root
+    group: root

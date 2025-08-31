@@ -4,21 +4,18 @@
     regexp: '^#?\s*PasswordAuthentication\s+'
     line: 'PasswordAuthentication no'
     backrefs: yes
-
 - name: Ensure PermitRootLogin prohibit-password (keys only)
   lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^#?\s*PermitRootLogin\s+'
     line: 'PermitRootLogin prohibit-password'
     backrefs: yes
-
 - name: Ensure PubkeyAuthentication yes
   lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^#?\s*PubkeyAuthentication\s+'
     line: 'PubkeyAuthentication yes'
     backrefs: yes
-
 - name: Restart SSH
   service:
     name: ssh
