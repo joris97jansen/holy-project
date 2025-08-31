@@ -13,7 +13,7 @@ git clone https://github.com/joris97jansen/holy-project.git /opt/code/holy-proje
 # 3) run your Ansible play right away (prompts for Vault password)
 #    -i "localhost," + -c local runs on this machine
 cd /opt/code/holy-project
-ansible-playbook -i "localhost," -c local server.yml --ask-vault-pass
+ansible-playbook server.yml --ask-vault-pass
 
 # How to run the script from your local machine:
 # scp bootstrap.sh root@<IP>:/root/bootstrap.sh
