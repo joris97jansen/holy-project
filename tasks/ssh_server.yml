@@ -20,12 +20,12 @@
   ansible.builtin.authorized_key:
     user: root
     state: present
-    key: "{{ lookup('file', dest_ssh_folder ~ '/id_rsa_local.pub') }}"
+    key: "{{ dest_ssh_folder }}/id_rsa_local.pub"
     manage_dir: false
 # Add the key to the server's authorized_keys
 - name: Ensure authorized_keys perms are strict
   ansible.builtin.file:
-    path: /root/.ssh/authorized_keys
+    path: "{{ dest_ssh_folder }}/authorized_keys"
     mode: "0600"
     owner: root
     group: root

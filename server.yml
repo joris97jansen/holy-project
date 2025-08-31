@@ -1,7 +1,7 @@
 - hosts: localhost
   vars:
     ssh_folder: "./.ssh"
-    dest_ssh_folder: "{{ lookup('env', 'HOME') }}/.ssh"
+    dest_ssh_folder: "/{{ lookup('env', 'HOME') }}/.ssh"
   pre_tasks:
     - name: Update cache
       become: true
