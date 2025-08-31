@@ -20,7 +20,7 @@
   ansible.builtin.authorized_key:
     user: root
     state: present
-    key: "{{ dest_ssh_folder }}/id_rsa_local.pub"
+    key: "{{ lookup('file', dest_ssh_folder ~ '/id_rsa_local.pub') }}"
     manage_dir: false
 # Add the key to the server's authorized_keys
 - name: Ensure authorized_keys perms are strict
