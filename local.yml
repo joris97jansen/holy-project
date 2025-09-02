@@ -3,6 +3,6 @@
   vars:
     ssh_folder: "./.ssh"
     dest_ssh_folder: "{{ lookup('env', 'HOME') }}/.ssh"
-    hertzner_host: "65.108.148.112"
+    hertzner_host: "91.98.70.96"
   tasks:
     - include_tasks: tasks/ssh_local.yml

@@ -13,4 +13,4 @@
         - install
   tasks:
     - include_tasks: tasks/ssh_server.yml
-    # - include_tasks: tasks/ssh_hardening.yml
+    - include_tasks: tasks/ssh_hardening.yml
