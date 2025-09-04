@@ -32,7 +32,7 @@ We use **Ansible** to automate the setup and configuration. This repo holds the 
 
 Settings I used:
 
-* **Location**: Helsinki
+* **Location**: Nuremberg
 * **Image**: Debian 13
 * **Type**: CX22 (2 vCPU, 4 GB RAM, 20 GB SSD, Intel)
 * **Networking**: Public IPv4 only (disable IPv6)
