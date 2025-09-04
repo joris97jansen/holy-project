@@ -40,7 +40,7 @@ Settings I used:
 * Other: defaults
 
 Once created, Hetzner emails you the root password.
-You have to log in via the Hetzner dashboard → web console to get started (set a new password).
+You have to log in via the Hetzner dashboard → web console to get started and set a new password for the root user.
 
 ---
 
@@ -49,11 +49,38 @@ The first step after creation of the Server, is ensuring our local machine is re
 
 #### On your PC you’ll need:
 
-* Ansible
-* SSH keys (create them if you don’t have them yet)
-* Ansible Vault (to encrypt private keys and secrets)
+* [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/index.html)
+* Ansible Vault (conmes with the Ansible installation)
+
+
+#### Create the SSH keys in the .ssh folder
+```Bash
+ssh-keygen -f ./.ssh
+```
+
+Then, we'll need to encrypt the SSH keys using Ansible Vault:
+
+```Bash
+ansible-vault encrypt ./.ssh/<NAME_OF_THE_SSH_KEY> ./.ssh/<NAME_OF_THE_SSH_KEY>.pub
+```
+Choose your password wisely, and/or store it somewhere safe, because you'll need this everytime you'll run the Ansible Playbook or when you want to encrypt/decrypt the file(s).
+
+After that, we'll also have to create a `local.yml` file inside the `vars/` folder.
+The content of that file currently looks like this:
+```yaml
+host_name: "<SERVER_IPV4_ADDRESS>"
+```
+
+We'll also encrypt this using Ansible Vault:
+```Bash
+ansible vault encrypt ./vars/local.yml
+```
+
 
 #### Installation
+Now, it's finally time to setup our local machines.
+It might look a bit cumbersome and overwhelming, but the whole idea of this setup is that you can now run this script on any machine easily.
+
 ```Bash
 ansible-playbook local.yml --ask-vault-password --ask-become-pass
 ```
@@ -66,17 +93,22 @@ The playbooks handle things like:
 
 ### 3. Bootstrap the server
 
-Now that our local machine is ready, we have to ensure the server is as well by pushing the `bootstrap.sh` file to the server.
-This script installs Git + Ansible, then clones this repo, and runs the setup.
+Now that our local machine is ready, we have to ensure the server is also by pushing the `bootstrap.sh` file to the server.
+This script installs Git + Ansible, then clones this repo, and runs the Ansible Playbook for the server.
 
 
-Server setup:
+First we copy the `bootstrap.sh` file to the server:
 
 ```bash
-ansible-playbook server.yml --ask-vault-password
+scp bootstrap.sh root@<IP>:/root/bootstrap.sh
 ```
 
-The playbooks handle things like:
+Then we make the script an executable and run it on the server:
+```bash
+ssh root@<IP> 'chmod +x /root/bootstrap.sh && /root/bootstrap.sh'
+```
+
+The script, and therefor the playbook(s) handle things like:
 
 * SSH setup & hardening
 * Installing NGINX
@@ -89,9 +121,21 @@ The playbooks handle things like:
 
 To automate more (like firewall setup), you’ll need an API token.
 
-1. Generate a Hetzner API token in the Hetzner Cloud dashboard.
-2. Encrypt it with Ansible Vault.
-3. Run the playbook on your local machine to configure firewall and other cloud resources.
+1. Generate a Hetzner API token in the Hetzner Cloud dashboard → Security → API Token (read & write access).
+
+2. After that, we'll also have to create a `cloud.yml` file inside the `vars/` folder.
+The content of that file currently looks like this:
+```yaml
+host_name: "<SERVER_IPV4_ADDRESS>"
+hcloud_token: "<API_TOKEN>"
+```
+
+3. We'll also encrypt this using Ansible Vault:
+```Bash
+ansible vault encrypt ./vars/cloud.yml
+```
+
+4. Run the playbook on your local machine to configure the firewall and .....
 
 
 ```bash
