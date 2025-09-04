@@ -1,0 +1,10 @@
+repos:
+  - repo: local
+    hooks:
+      - id: ansible-vault-encryption-check
+        name: Ensure protected files are ansible-vault encrypted
+        entry: scripts/ansible-vault-encryption-check.sh
+        language: system
+        pass_filenames: true
+        files: '(.ssh|vars|group_vars)/'
+        stages: [pre-commit, pre-push]

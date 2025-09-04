@@ -4,7 +4,6 @@
     dest_ssh_folder: "{{ lookup('env', 'HOME') }}/.ssh"
   pre_tasks:
     - name: Update cache
-      become: true
       apt:
         force_apt_get: true
         update_cache: true
@@ -14,3 +13,4 @@
   tasks:
     - include_tasks: tasks/ssh_server.yml
     - include_tasks: tasks/ssh_hardening.yml
+    - include_tasks: tasks/nginx.yml

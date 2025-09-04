@@ -15,7 +15,7 @@
   tags:
     - local
     - ssh
-# ssh config for hertzner server
+# ssh config for Hetzner server
 - name: Add SSH config entry (so `ssh holy` just works)
   ansible.builtin.blockinfile:
     path: "{{ lookup('env','HOME') }}/.ssh/config"
@@ -23,7 +23,7 @@
     mode: "0600"
     block: |
       Host holy-server
-        HostName {{ hertzner_host }}
+        HostName {{ host_name }}
         User root
         IdentityFile {{ dest_ssh_folder }}/id_rsa_local
         IdentitiesOnly yes

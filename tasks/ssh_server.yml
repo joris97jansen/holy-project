@@ -15,7 +15,7 @@
   tags:
     - local
     - ssh
-# ssh config for hertzner server
+# ssh config for Hetzner server
 - name: Authorize our public key for root
   ansible.builtin.authorized_key:
     user: root

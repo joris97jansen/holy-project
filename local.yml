@@ -1,8 +1,9 @@
 - name: Setup SSH for local machine
   hosts: localhost
+  vars_files:
+    - vars/local.yml
   vars:
     ssh_folder: "./.ssh"
     dest_ssh_folder: "{{ lookup('env', 'HOME') }}/.ssh"
-    hertzner_host: "91.98.70.96"
   tasks:
     - include_tasks: tasks/ssh_local.yml
