@@ -74,3 +74,8 @@ Then run it:
 ### Generate API Token
 ### Encrypt API Token
 ### Run Ansible Playbook (firewall, etc)
+
+## Update Server packages
+```bash
+ansible-playbook server.yml --tags update
+```

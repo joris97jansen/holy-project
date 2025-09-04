@@ -1,0 +1,12 @@
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  tags: [update]
+
+- name: Upgrade packages (safe upgrade)
+  ansible.builtin.apt:
+    upgrade: safe
+    autoremove: yes
+    autoclean: yes
+  tags: [update]

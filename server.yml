@@ -14,3 +14,6 @@
     - include_tasks: tasks/ssh_server.yml
     - include_tasks: tasks/ssh_hardening.yml
     - include_tasks: tasks/nginx.yml
+    - include_tasks: tasks/update_packages.yml
+    # TODO
+    # - include_tasks: tasks/postgres.yml
